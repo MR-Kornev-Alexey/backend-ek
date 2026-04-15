@@ -25,6 +25,7 @@ import { HealthModule } from './health/health.module';
         entities: [User, FormSubmission],
         synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
         logging: configService.get('DB_LOGGING') === 'true',
+        connectTimeout: 10000, // 10 секунд
       }),
       inject: [ConfigService],
     }),
