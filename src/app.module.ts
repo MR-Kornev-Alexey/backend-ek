@@ -26,6 +26,10 @@ import { HealthModule } from './health/health.module';
         synchronize: configService.get('DB_SYNCHRONIZE') === 'true',
         logging: configService.get('DB_LOGGING') === 'true',
         connectTimeout: 10000, // 10 секунд
+        charset: 'utf8mb4', // <-- важно
+        extra: {
+          charset: 'utf8mb4_unicode_ci', // <-- важно
+        },
       }),
       inject: [ConfigService],
     }),
