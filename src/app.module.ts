@@ -5,6 +5,7 @@ import { FormModule } from './form/form.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './entity/user.entity';
 import { FormSubmission } from './entity/form.entity';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { FormSubmission } from './entity/form.entity';
     }),
     AuthModule,
     FormModule,
+    HealthModule,
   ],
 })
 export class AppModule {}
