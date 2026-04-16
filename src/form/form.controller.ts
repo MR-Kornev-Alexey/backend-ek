@@ -28,10 +28,14 @@ export class FormController {
   ) {
     const userId = req.user.userId;
     const user = await this.usersRepository.findOne({ where: { id: userId } });
+    console.log('user -', user);
+
+    // Перезаписываем name и email из аккаунта (источник правды)
     if (user) {
       formData.name = user.name;
       formData.email = user.email;
     }
+
     return this.formService.saveSubmission(userId, formData);
   }
 }

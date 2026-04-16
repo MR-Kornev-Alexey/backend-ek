@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 export interface JwtPayload {
   sub: number;
@@ -17,25 +18,27 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
+    private readonly configService: ConfigService,
   ) {
-    const options: StrategyOptions = {
+    const secret = configService.get<string>('JWT_SECRET');
+    if (!secret) {
+      throw new Error('JWT_SECRET не задан в переменных окружения');
+    }
+
+    super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey:
-        process.env.JWT_SECRET || 'your-secret-key-change-in-production',
-    };
-    super(options);
+      secretOrKey: secret,
+    });
   }
 
-  async validate(
-    payload: JwtPayload,
-  ): Promise<{ userId: number; email: string } | null> {
+  async validate(payload: JwtPayload) {
     const user = await this.usersRepository.findOne({
       where: { id: payload.sub },
     });
     if (!user) {
-      return null;
+      throw new UnauthorizedException('Пользователь не найден');
     }
-    return { userId: payload.sub, email: payload.email };
+    return { userId: user.id, email: user.email };
   }
 }

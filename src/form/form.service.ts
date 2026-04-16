@@ -11,10 +11,7 @@ export class FormService {
     private readonly formSubmissionRepository: Repository<FormSubmission>,
   ) {}
 
-  async saveSubmission(
-    userId: number,
-    data: SubmitFormDto,
-  ): Promise<{ success: boolean }> {
+  async saveSubmission(userId: number, data: SubmitFormDto) {
     const submission = this.formSubmissionRepository.create({
       userId,
       ...data,

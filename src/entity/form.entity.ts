@@ -11,21 +11,25 @@ export class FormSubmission {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // Связь с пользователем (внешний ключ на users.id)
   @Column({ name: 'user_id', type: 'int', nullable: true })
   userId: number;
 
-  // Согласие
   @Column({ name: 'consent', type: 'boolean', default: false })
   consent: boolean;
 
-  // Контактные данные
   @Column({ name: 'name', type: 'varchar', length: 255, nullable: true })
   name: string;
 
-  // Вместо phone теперь email
   @Column({ name: 'email', type: 'varchar', length: 255, nullable: true })
   email: string;
+
+  @Column({
+    name: 'email_confirm',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+  })
+  emailConfirm: string;
 
   @Column({ name: 'messenger', type: 'varchar', length: 100, nullable: true })
   messenger: string;
@@ -39,86 +43,81 @@ export class FormSubmission {
   messengerAccount: string;
 
   @Column({
-    name: 'contact_time',
+    name: 'contact_time_1',
     type: 'enum',
     enum: ['morning', 'day', 'evening'],
     default: 'day',
   })
-  contactTime: string;
+  contactTime_1: string;
 
-  // Данные о ребёнке
-  @Column({ name: 'child_name', type: 'varchar', length: 255, nullable: true })
-  childName: string;
+  @Column({ name: 'children_2', type: 'json', nullable: true })
+  children_2: { name: string; age: string }[];
 
-  @Column({ name: 'child_age', type: 'varchar', length: 50, nullable: true })
-  childAge: string;
+  @Column({ name: 'caregivers_3_1', type: 'json', nullable: true })
+  caregivers_3_1: string[];
 
-  // Энергетические опции
-  @Column({ name: 'energy_options', type: 'json', nullable: true })
-  energyOptions: string[];
+  @Column({ name: 'caregivers_other_3_2', type: 'text', nullable: true })
+  caregiversOther_3_2: string;
 
-  @Column({ name: 'energy_other', type: 'text', nullable: true })
-  energyOther: string;
+  @Column({ name: 'reaction_to_no_4', type: 'text', nullable: true })
+  reactionToNo_4: string;
 
-  // Уровень выгорания
-  @Column({ name: 'burnout_level', type: 'int', default: 5 })
-  burnoutLevel: number;
-
-  // Опыт со специалистами
   @Column({
-    name: 'prev_specialist',
+    name: 'last_word_5',
+    type: 'enum',
+    enum: ['me', 'child', 'nanny', 'noRules'],
+    nullable: true,
+  })
+  lastWord_5: string;
+
+  @Column({ name: 'previous_experience_text_6', type: 'text', nullable: true })
+  previousExperienceText_6: string;
+
+  @Column({ name: 'parental_fears_7', type: 'json', nullable: true })
+  parentalFears_7: string[];
+
+  @Column({ name: 'parental_fears_other_7', type: 'text', nullable: true })
+  parentalFearsOther_7: string;
+
+  @Column({ name: 'character_traits_8', type: 'json', nullable: true })
+  characterTraits_8: string[];
+
+  @Column({ name: 'character_traits_other_8', type: 'text', nullable: true })
+  characterTraitsOther_8: string;
+
+  @Column({
+    name: 'budget_9',
+    type: 'enum',
+    enum: ['up_to_50k', '100k_250k', '250k_500k', 'over_500k'],
+    nullable: true,
+  })
+  budget_9: string;
+
+  @Column({
+    name: 'readiness_10',
+    type: 'enum',
+    enum: ['ready_to_change', 'only_child'],
+    nullable: true,
+  })
+  readiness_10: string;
+
+  @Column({
+    name: 'daily_connection_11',
     type: 'enum',
     enum: ['yes', 'no'],
     nullable: true,
   })
-  prevSpecialist: string;
+  dailyConnection_11: string;
 
-  @Column({
-    name: 'prev_methods',
-    type: 'enum',
-    enum: ['yes', 'no'],
-    nullable: true,
-  })
-  prevMethods: string;
+  @Column({ name: 'expected_changes_12', type: 'text', nullable: true })
+  expectedChanges_12: string;
 
-  @Column({ name: 'prev_experience_details', type: 'text', nullable: true })
-  prevExperienceDetails: string;
+  @Column({ name: 'internal_state_change_13', type: 'text', nullable: true })
+  internalStateChange_13: string;
 
-  // Страхи и сценарии
-  @Column({ name: 'future_scenarios', type: 'json', nullable: true })
-  futureScenarios: string[];
+  @Column({ name: 'final_notes_14', type: 'text', nullable: true })
+  finalNotes_14: string;
 
-  @Column({ name: 'future_scenario_other', type: 'text', nullable: true })
-  futureScenarioOther: string;
-
-  // Приоритетные навыки
-  @Column({ name: 'priority_skills', type: 'json', nullable: true })
-  prioritySkills: string[];
-
-  @Column({ name: 'priority_skill_other', type: 'text', nullable: true })
-  prioritySkillOther: string;
-
-  // Приоритеты в работе
-  @Column({ name: 'work_priorities', type: 'json', nullable: true })
-  workPriorities: string[];
-
-  // Бюджет времени и денег
-  @Column({
-    name: 'daily_time_budget',
-    type: 'varchar',
-    length: 100,
-    nullable: true,
-  })
-  dailyTimeBudget: string;
-
-  @Column({ name: 'budget', type: 'varchar', length: 100, nullable: true })
-  budget: string;
-
-  // Готовность
-  @Column({ name: 'readiness', type: 'varchar', length: 100, nullable: true })
-  readiness: string;
-
-  // Системные поля
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
